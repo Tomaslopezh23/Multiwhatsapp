@@ -23,17 +23,26 @@ app.get('/', (req, res) => {
     res.send('Servidor corriendo en puerto 3002 🚀')
 })
 
-const flowBienvenida = addKeyword('hola')
-    .addAction(({ body }) => {
-        console.log('📩 Mensaje recibido:', body)
+const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
+    const payload = {
+        from: ctx.from,
+        message: ctx.body,
+    }
+
+    await fetch('https://n8n.koptiva.com/webhook-test/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
     })
-    .addAnswer('¡Buenas! Bienvenido 🖐️')
+
+    return endFlow()
+})
 
 const main = async () => {
     const provider = createProvider(WPPConnectProviderClass)
 
     await createBot({
-        flow: createFlow([flowBienvenida]),
+        flow: createFlow([flowWebhook]),
         database: new MemoryDB(),
         provider
     })
