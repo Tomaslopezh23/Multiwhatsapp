@@ -29,7 +29,7 @@ const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
         message: ctx.body,
     }
 
-    await fetch('https://n8n.koptiva.com/webhook-test/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
+    await fetch('https://n8n.koptiva.com/webhook/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
