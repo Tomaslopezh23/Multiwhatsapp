@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - '@whiskeysockets/baileys'
+  - esbuild
+  - protobufjs
+  - puppeteer
+  - sharp
