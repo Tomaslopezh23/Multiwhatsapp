@@ -48,6 +48,7 @@ const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
 
 const main = async () => {
   const provider = createProvider(WPPConnectProviderClass)
+
   client = await createBot({
     flow: createFlow([flowWebhook]),
     database: new MemoryDB(),
