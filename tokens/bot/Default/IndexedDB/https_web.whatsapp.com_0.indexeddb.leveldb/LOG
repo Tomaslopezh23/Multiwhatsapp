@@ -1,17 +1,18 @@
-2025/07/11-12:41:58.316 620 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/07/11-12:41:58.316 620 Recovering log #351
-2025/07/11-12:41:58.334 620 Reusing old log C:\Projects\whatsapp-messages\tokens\bot\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000351.log 
-2025/07/11-12:41:59.343 d88 Level-0 table #358: started
-2025/07/11-12:41:59.353 d88 Level-0 table #358: 471839 bytes OK
-2025/07/11-12:41:59.354 d88 Delete type=0 #351
-2025/07/11-12:41:59.354 d88 Manual compaction at level-0 from '\x00Y\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00Z\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/07/11-12:42:00.729 b44 Compacting 1@1 + 3@2 files
-2025/07/11-12:42:00.789 b44 Generated table #359@1: 65758 keys, 2228803 bytes
-2025/07/11-12:42:00.822 b44 Generated table #360@1: 8736 keys, 2166214 bytes
-2025/07/11-12:42:00.873 b44 Generated table #361@1: 68049 keys, 2168757 bytes
-2025/07/11-12:42:00.873 b44 Compacted 1@1 + 3@2 files => 6563774 bytes
-2025/07/11-12:42:00.874 b44 compacted to: files[ 0 0 3 0 0 0 0 ]
-2025/07/11-12:42:00.874 b44 Delete type=2 #353
-2025/07/11-12:42:00.874 b44 Delete type=2 #354
-2025/07/11-12:42:00.874 b44 Delete type=2 #355
-2025/07/11-12:42:00.874 b44 Delete type=2 #358
+2025/07/11-15:29:03.765 3bbc Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/11-15:29:03.766 3bbc Recovering log #357
+2025/07/11-15:29:03.808 3bbc Reusing old log C:\Projects\whatsapp-messages\tokens\bot\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000357.log 
+2025/07/11-15:29:04.791 3988 Level-0 table #364: started
+2025/07/11-15:29:04.809 3988 Level-0 table #364: 967873 bytes OK
+2025/07/11-15:29:04.810 3988 Delete type=0 #357
+2025/07/11-15:29:04.811 3988 Manual compaction at level-0 from '\x00Z\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00[\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/11-15:29:06.163 3bbc Compacting 1@1 + 3@2 files
+2025/07/11-15:29:06.231 3bbc Generated table #365@1: 69704 keys, 2232808 bytes
+2025/07/11-15:29:06.259 3bbc Generated table #366@1: 7161 keys, 2160481 bytes
+2025/07/11-15:29:06.311 3bbc Generated table #367@1: 66851 keys, 2220196 bytes
+2025/07/11-15:29:06.314 3bbc Generated table #368@1: 3113 keys, 74277 bytes
+2025/07/11-15:29:06.314 3bbc Compacted 1@1 + 3@2 files => 6687762 bytes
+2025/07/11-15:29:06.315 3bbc compacted to: files[ 0 0 4 0 0 0 0 ]
+2025/07/11-15:29:06.316 3bbc Delete type=2 #359
+2025/07/11-15:29:06.316 3bbc Delete type=2 #360
+2025/07/11-15:29:06.316 3bbc Delete type=2 #361
+2025/07/11-15:29:06.316 3bbc Delete type=2 #364
