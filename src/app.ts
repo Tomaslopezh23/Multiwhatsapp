@@ -1,55 +1,62 @@
-import express from 'express'
 import { createBot, createFlow, MemoryDB, createProvider, addKeyword } from '@bot-whatsapp/bot'
 import { WPPConnectProviderClass } from '@bot-whatsapp/provider-wppconnect'
+import express from 'express'
 
 const app = express()
 const PORT = 3002
 
-// 🧠 Necesario para leer JSON en peticiones POST
 app.use(express.json())
 
-// 🌐 Endpoint para recibir webhooks desde n8n o cualquier servicio
-app.post('/webhook', (req, res) => {
-    console.log('🪝 Webhook recibido:', req.body)
+// ⬇️ Mueve esta variable afuera para poder usarla luego
+let client: any
 
-    // Aquí puedes hacer lo que quieras con los datos
-    // incluso enviarlos a WhatsApp o guardarlos
+app.post('/send-message', async (req, res) => {
+  const { to, message } = req.body
 
-    res.sendStatus(200)
+  if (!to || !message) {
+    return res.status(400).json({ error: 'Faltan campos: to y message' })
+  }
+
+  try {
+    await client.sendMessage(to, message)
+    console.log(`📤 Mensaje enviado a ${to}: "${message}"`)
+    res.json({ success: true })
+  } catch (err) {
+    console.error('❌ Error enviando mensaje:', err)
+    res.status(500).json({ error: 'No se pudo enviar el mensaje' })
+  }
 })
 
-// 🔄 Endpoint base para test
 app.get('/', (req, res) => {
-    res.send('Servidor corriendo en puerto 3002 🚀')
+  res.send('Servidor corriendo en puerto 3002 🚀')
 })
 
 const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
-    const payload = {
-        from: ctx.from,
-        message: ctx.body,
-    }
+  const payload = {
+    from: ctx.from,
+    message: ctx.body,
+  }
 
-    await fetch('https://n8n.koptiva.com/webhook/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    })
+  await fetch('https://n8n.koptiva.com/webhook/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
 
-    return endFlow()
+  return endFlow()
 })
 
 const main = async () => {
-    const provider = createProvider(WPPConnectProviderClass)
+  const provider = createProvider(WPPConnectProviderClass)
+  client = await createBot({
+    flow: createFlow([flowWebhook]),
+    database: new MemoryDB(),
+    provider
+  })
 
-    await createBot({
-        flow: createFlow([flowWebhook]),
-        database: new MemoryDB(),
-        provider
-    })
-
-        app.listen(PORT, '0.0.0.0', () => {
-            console.log(`🟢 Servidor escuchando en http://0.0.0.0:${PORT}`)
-        })
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🟢 Servidor escuchando en http://0.0.0.0:${PORT}`)
+  })
 }
 
 main()
