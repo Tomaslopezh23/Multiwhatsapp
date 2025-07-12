@@ -2,6 +2,7 @@ import { Client } from 'whatsapp-web.js'
 import qrcode from 'qrcode-terminal'
 import dotenv from 'dotenv'
 import axios from 'axios'
+import express from 'express'
 
 dotenv.config()
 
@@ -45,7 +46,6 @@ client.on('message', async (msg) => {
 
 client.initialize()
 
-import express from 'express'
 const app = express()
 const PORT = 3002
 
