@@ -8,7 +8,7 @@ const PORT = 3002
 app.use(express.json())
 
 // ⬇️ Mueve esta variable afuera para poder usarla luego
-let client: any
+let providerInstance: any
 
 app.post('/send-message', async (req, res) => {
   const { to, message } = req.body
@@ -18,7 +18,7 @@ app.post('/send-message', async (req, res) => {
   }
 
   try {
-    await client.sendMessage(to, message)
+    await providerInstance.sendMessage(to, message)
     console.log(`📤 Mensaje enviado a ${to}: "${message}"`)
     res.json({ success: true })
   } catch (err) {
@@ -37,7 +37,7 @@ const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
     message: ctx.body,
   }
 
-  await fetch('https://n8n.koptiva.com/webhook/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
+  await fetch('https://n8n.koptiva.com/webhook-test/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -47,13 +47,15 @@ const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
 })
 
 const main = async () => {
-  const provider = createProvider(WPPConnectProviderClass)
+const provider = createProvider(WPPConnectProviderClass)
+providerInstance = provider
 
-  client = await createBot({
+  await createBot({
     flow: createFlow([flowWebhook]),
     database: new MemoryDB(),
     provider
   })
+
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`🟢 Servidor escuchando en http://0.0.0.0:${PORT}`)

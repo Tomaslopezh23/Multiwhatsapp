@@ -1,3 +1,2 @@
-2025/07/11-17:45:54.404 7d4 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\Session Storage/MANIFEST-000001
-2025/07/11-17:45:54.405 7d4 Recovering log #3
-2025/07/11-17:45:54.407 7d4 Reusing old log C:\Projects\whatsapp-messages\tokens\bot\Default\Session Storage/000003.log 
+2025/07/11-18:15:45.913 3c68 Creating DB C:\Projects\whatsapp-messages\tokens\bot\Default\Session Storage since it was missing.
+2025/07/11-18:15:46.117 3c68 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\Session Storage/MANIFEST-000001

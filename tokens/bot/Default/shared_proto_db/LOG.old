@@ -1,3 +1,2 @@
-2025/07/11-17:45:54.418 3668 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\shared_proto_db/MANIFEST-000001
-2025/07/11-17:45:54.418 3668 Recovering log #3
-2025/07/11-17:45:54.419 3668 Reusing old log C:\Projects\whatsapp-messages\tokens\bot\Default\shared_proto_db/000003.log 
+2025/07/11-18:15:46.009 3798 Creating DB C:\Projects\whatsapp-messages\tokens\bot\Default\shared_proto_db since it was missing.
+2025/07/11-18:15:46.122 3798 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\shared_proto_db/MANIFEST-000001

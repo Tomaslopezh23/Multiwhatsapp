@@ -1,3 +1,2 @@
-2025/07/11-17:45:54.327 3afc Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\Site Characteristics Database/MANIFEST-000001
-2025/07/11-17:45:54.328 3afc Recovering log #3
-2025/07/11-17:45:54.329 3afc Reusing old log C:\Projects\whatsapp-messages\tokens\bot\Default\Site Characteristics Database/000003.log 
+2025/07/11-18:15:45.802 3eb0 Creating DB C:\Projects\whatsapp-messages\tokens\bot\Default\Site Characteristics Database since it was missing.
+2025/07/11-18:15:45.906 3eb0 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\Site Characteristics Database/MANIFEST-000001

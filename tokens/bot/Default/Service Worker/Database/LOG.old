@@ -1,3 +1,2 @@
-2025/07/11-17:45:54.327 2348 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\Service Worker\Database/MANIFEST-000001
-2025/07/11-17:45:54.330 2348 Recovering log #3
-2025/07/11-17:45:54.330 2348 Reusing old log C:\Projects\whatsapp-messages\tokens\bot\Default\Service Worker\Database/000003.log 
+2025/07/11-18:15:46.210 1a84 Creating DB C:\Projects\whatsapp-messages\tokens\bot\Default\Service Worker\Database since it was missing.
+2025/07/11-18:15:46.219 1a84 Reusing MANIFEST C:\Projects\whatsapp-messages\tokens\bot\Default\Service Worker\Database/MANIFEST-000001
