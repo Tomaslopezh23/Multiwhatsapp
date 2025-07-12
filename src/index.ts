@@ -41,7 +41,17 @@ client.on('message', async (msg) => {
     isGroup: msg.from.endsWith('@g.us')
   }
 
+  // Obtener el chat
+  const chat = await msg.getChat()
+
+    // Enviar el webhook de inmediato
   await fireWebhook(payload)
+  
+  // Esperar 2s antes de comenzar a escribir
+  setTimeout(() => {
+    chat.sendStateTyping()
+  }, 1500)
+
 })
 
 client.initialize()
@@ -62,13 +72,6 @@ app.post('/send-message', async (req, res) => {
   try {
     const chat = await client.getChatById(to)
 
-    // Simula que está escribiendo inmediatamente
-    await chat.sendStateTyping()
-
-    // Espera 2.5 segundos con "escribiendo"
-    await new Promise(resolve => setTimeout(resolve, 2500))
-
-    // Envía el mensaje
     await client.sendMessage(to, message)
 
     // Limpia el estado
