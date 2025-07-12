@@ -1,65 +1,74 @@
-import { createBot, createFlow, MemoryDB, createProvider, addKeyword } from '@bot-whatsapp/bot'
-import { WPPConnectProviderClass } from '@bot-whatsapp/provider-wppconnect'
-import express from 'express'
+import { Client } from 'whatsapp-web.js'
+import qrcode from 'qrcode-terminal'
+import dotenv from 'dotenv'
+import axios from 'axios'
 
+dotenv.config()
+
+const WEBHOOK_URL = process.env.WEBHOOK_URL!
+
+const fireWebhook = async (payload: unknown) => {
+  try {
+    await axios.post(WEBHOOK_URL, payload, { timeout: 8000 })
+    console.log('✅ Webhook enviado')
+  } catch (err) {
+    console.error('❌ Error enviando webhook', err)
+  }
+}
+
+const client = new Client({
+  puppeteer: {
+    headless: true,
+    args: ['--no-sandbox']
+  }
+})
+
+client.on('qr', (qr) => {
+  qrcode.generate(qr, { small: true })
+})
+
+client.on('ready', () => {
+  console.log('✅ WhatsApp listo')
+})
+
+client.on('message', async (msg) => {
+  const payload = {
+    id: msg.id._serialized,
+    from: msg.from,
+    timestamp: msg.timestamp,
+    body: msg.body,
+    isGroup: msg.from.endsWith('@g.us')
+  }
+
+  await fireWebhook(payload)
+})
+
+client.initialize()
+
+import express from 'express'
 const app = express()
 const PORT = 3002
 
 app.use(express.json())
 
-// ⬇️ Mueve esta variable afuera para poder usarla luego
-let providerInstance: any
-
+// 🧠 Ruta para enviar mensajes desde n8n
 app.post('/send-message', async (req, res) => {
   const { to, message } = req.body
 
   if (!to || !message) {
-    return res.status(400).json({ error: 'Faltan campos: to y message' })
+    return res.status(400).json({ error: 'Falta "to" o "message"' })
   }
 
   try {
-    await providerInstance.sendMessage(to, message)
-    console.log(`📤 Mensaje enviado a ${to}: "${message}"`)
-    res.json({ success: true })
-  } catch (err) {
-    console.error('❌ Error enviando mensaje:', err)
-    res.status(500).json({ error: 'No se pudo enviar el mensaje' })
+    await client.sendMessage(to, message)
+    console.log(`✅ Mensaje enviado a ${to}: ${message}`)
+    res.json({ status: 'ok' })
+  } catch (error) {
+    console.error('❌ Error enviando mensaje', error)
+    res.status(500).json({ error: 'Error enviando mensaje' })
   }
 })
 
-app.get('/', (req, res) => {
-  res.send('Servidor corriendo en puerto 3002 🚀')
+app.listen(PORT, () => {
+  console.log(`🌐 API activa en http://localhost:${PORT}`)
 })
-
-const flowWebhook = addKeyword(['.']).addAction(async (ctx, { endFlow }) => {
-  const payload = {
-    from: ctx.from,
-    message: ctx.body,
-  }
-
-  await fetch('https://n8n.koptiva.com/webhook-test/afa604a2-e040-4176-8906-b1dc3dcbd9bf', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
-
-  return endFlow()
-})
-
-const main = async () => {
-const provider = createProvider(WPPConnectProviderClass)
-providerInstance = provider
-
-  await createBot({
-    flow: createFlow([flowWebhook]),
-    database: new MemoryDB(),
-    provider
-  })
-
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🟢 Servidor escuchando en http://0.0.0.0:${PORT}`)
-  })
-}
-
-main()
