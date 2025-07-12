@@ -60,11 +60,24 @@ app.post('/send-message', async (req, res) => {
   }
 
   try {
+    const chat = await client.getChatById(to)
+
+    // Simula que está escribiendo inmediatamente
+    await chat.sendStateTyping()
+
+    // Espera 2.5 segundos con "escribiendo"
+    await new Promise(resolve => setTimeout(resolve, 2500))
+
+    // Envía el mensaje
     await client.sendMessage(to, message)
+
+    // Limpia el estado
+    await chat.clearState()
+
     console.log(`✅ Mensaje enviado a ${to}: ${message}`)
     res.json({ status: 'ok' })
-  } catch (error) {
-    console.error('❌ Error enviando mensaje', error)
+  } catch (error: any) {
+    console.error('❌ Error enviando mensaje', error?.message || error)
     res.status(500).json({ error: 'Error enviando mensaje' })
   }
 })
