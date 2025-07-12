@@ -3,6 +3,14 @@ import qrcode from 'qrcode-terminal'
 import dotenv from 'dotenv'
 import axios from 'axios'
 import express from 'express'
+import fs from 'fs'
+
+const SESSION_FILE_PATH = './session.json'
+let sessionData
+
+if (fs.existsSync(SESSION_FILE_PATH)) {
+  sessionData = JSON.parse(fs.readFileSync(SESSION_FILE_PATH, 'utf-8'))
+}
 
 dotenv.config()
 
@@ -18,6 +26,7 @@ const fireWebhook = async (payload: unknown) => {
 }
 
 const client = new Client({
+  session: sessionData,
   puppeteer: {
     headless: true,
     args: ['--no-sandbox']
@@ -30,6 +39,11 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
   console.log('✅ WhatsApp listo')
+})
+
+client.on('authenticated', (session) => {
+  fs.writeFileSync(SESSION_FILE_PATH, JSON.stringify(session))
+  console.log('💾 Sesión guardada')
 })
 
 client.on('message', async (msg) => {
