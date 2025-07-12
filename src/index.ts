@@ -50,7 +50,7 @@ client.on('message', async (msg) => {
   // Esperar 2s antes de comenzar a escribir
   setTimeout(() => {
     chat.sendStateTyping()
-  }, 1500)
+  }, 0)
 
 })
 
