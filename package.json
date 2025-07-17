@@ -1,11 +1,11 @@
 {
-  "name": "whatsapp-messages",
+  "name": "Multiwhatsapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "npx tsm ./src/app.ts",
+    "dev": "npx tsm ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -24,6 +24,9 @@
     "whatsapp-web.js": "^1.31.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.14",
+    "@types/qrcode-terminal": "^0.12.2",
     "tsm": "^2.3.0"
   }
 }
