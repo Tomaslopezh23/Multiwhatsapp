@@ -207,11 +207,12 @@ if (conexiones[nombre]) {
     }, 30_000)
   })
 
-  client.on('ready', () => {
-    console.log(`✅ WhatsApp listo para ${nombre}`)
-    conexiones[nombre] = true
-    clearTimeout(qrTimeout)
-  })
+client.on('ready', () => {
+  console.log(`✅ WhatsApp listo para ${nombre}`)
+  conexiones[nombre] = true
+  clientesActivos[nombre] = client // 🔥 ESTA LÍNEA ES LA CLAVE
+  clearTimeout(qrTimeout)
+})
 
 client.on('message', async (msg) => {
   const rutaEnv = path.join(rutaUsuario, '.env')
@@ -355,6 +356,7 @@ app.post('/send-message/:empresa', express.json(), async (req, res) => {
     return res.status(500).json({ error: 'Error enviando mensaje' })
   }
 })
+
 
 
 app.listen(PORT, '0.0.0.0', () => {
