@@ -348,6 +348,6 @@ app.post('/send-message/:empresa', express.json(), async (req, res) => {
 
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🌐 API activa en http://localhost:${PORT}`)
-  console.log(`🔍 Escanea el QR en: http://localhost:${PORT}/qrscan`)
+  console.log(`🌐 API activa en http://0.0.0.0:${PORT}`)
+  console.log(`🔍 Escanea el QR en: http://0.0.0.0:${PORT}/qrscan`)
 })
