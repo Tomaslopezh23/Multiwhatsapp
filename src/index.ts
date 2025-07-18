@@ -9,6 +9,7 @@ import express from 'express'
 import { rm } from 'fs/promises'
 import { config } from 'dotenv'
 import { registerDashboard } from './routes/dashboard'
+import { registerHola } from './routes/hola'
 import qs from 'qs'
 import type { Message } from 'whatsapp-web.js'
 import type { Client as WhatsAppClient } from 'whatsapp-web.js'
@@ -35,6 +36,8 @@ const app = express()
 const PORT = 3002
 
 app.use(express.json())
+
+registerHola(app)
 
 registerDashboard(app)
 
