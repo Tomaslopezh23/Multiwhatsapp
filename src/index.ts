@@ -314,29 +314,35 @@ app.post('/send-message/:empresa', express.json(), async (req, res) => {
   try {
     let client = clientesActivos[nombre]
 
-    if (!client) {
-      client = new Client({
-        authStrategy: new LocalAuth({ dataPath: rutaUsuario }),
-        puppeteer: { headless: true, args: ['--no-sandbox'] },
-      })
+      if (!client) {
+        client = new Client({
+          authStrategy: new LocalAuth({ dataPath: rutaUsuario }),
+          puppeteer: { headless: true, args: ['--no-sandbox'] },
+        })
 
-      client.initialize()
+        clientesActivos[nombre] = client
 
-      client.on('ready', () => {
-        console.log(`📲 Cliente listo para ${nombre}`)
-      })
+        const clienteListo = new Promise<void>((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            reject(new Error(`⏰ Timeout: el cliente de ${nombre} no respondió a tiempo`))
+          }, 15000)
 
-      client.on('message', (msg: Message) => {
-        console.log(`📥 Mensaje recibido en ${nombre}: ${msg.body}`)
-      })
+          client.on('ready', () => {
+            clearTimeout(timeout)
+            console.log(`📲 Cliente listo para ${nombre}`)
+            resolve()
+          })
 
-      clientesActivos[nombre] = client
-    }
+          client.on('auth_failure', (msg) => {
+            clearTimeout(timeout)
+            reject(new Error(`❌ Fallo de autenticación para ${nombre}: ${msg}`))
+          })
+        })
 
-    // Esperar a que el cliente esté listo
-    if (!client.info?.wid) {
-      return res.status(500).json({ error: 'Cliente aún no está listo' })
-    }
+        client.initialize()
+        await clienteListo
+      }
+
 
     const chat = await client.getChatById(to)
     await client.sendMessage(to, message)
