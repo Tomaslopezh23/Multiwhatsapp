@@ -9,7 +9,6 @@ import express from 'express'
 import { rm } from 'fs/promises'
 import { config } from 'dotenv'
 import { registerDashboard } from './routes/dashboard'
-import { registerHola } from './routes/hola'
 import qs from 'qs'
 import type { Message } from 'whatsapp-web.js'
 import type { Client as WhatsAppClient } from 'whatsapp-web.js'
@@ -36,8 +35,6 @@ const app = express()
 const PORT = 3002
 
 app.use(express.json())
-
-registerHola(app)
 
 registerDashboard(app)
 
@@ -315,7 +312,6 @@ app.post('/send-message/:empresa', express.json(), async (req, res) => {
   }
 
   try {
-    // Si ya existe un cliente activo, lo reutilizamos
     let client = clientesActivos[nombre]
 
     if (!client) {
@@ -337,7 +333,15 @@ app.post('/send-message/:empresa', express.json(), async (req, res) => {
       clientesActivos[nombre] = client
     }
 
+    // Esperar a que el cliente esté listo
+    if (!client.info?.wid) {
+      return res.status(500).json({ error: 'Cliente aún no está listo' })
+    }
+
+    const chat = await client.getChatById(to)
     await client.sendMessage(to, message)
+    await chat.clearState()
+
     console.log(`✅ Mensaje enviado a ${to} desde ${nombre}`)
     return res.json({ status: 'ok', empresa: nombre })
   } catch (err: any) {
