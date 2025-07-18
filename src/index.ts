@@ -41,6 +41,31 @@ registerDashboard(app)
 
 app.use(express.urlencoded({ extended: true })) // Para manejar formularios
 
+app.get('/qrscan', (req, res) => {
+  res.send(`
+    <html>
+      <body>
+        <h1>Acceso a escáner de QR</h1>
+        <form method="POST" action="/qrscan">
+          <label>Nombre de la empresa:</label><br>
+          <input type="text" name="empresa" required /><br><br>
+
+          <label>Correo electrónico:</label><br>
+          <input type="email" name="correo" required /><br><br>
+
+          <label>Número de teléfono:</label><br>
+          <input type="tel" name="telefono" required /><br><br>
+
+          <label>Contraseña:</label><br>
+          <input type="password" name="password" required /><br><br>
+
+          <button type="submit">Entrar</button>
+        </form>
+      </body>
+    </html>
+  `)
+})
+
 
 app.post('/qrscan', async (req, res) => {
   const { empresa, correo, telefono, password } = req.body
@@ -238,32 +263,6 @@ client.on('message', async (msg) => {
 })
 
   client.initialize()
-})
-
-
-app.get('/qrscan', (req, res) => {
-  res.send(`
-    <html>
-      <body>
-        <h1>Acceso a escáner de QR</h1>
-        <form method="POST" action="/qrscan">
-          <label>Nombre de la empresa:</label><br>
-          <input type="text" name="empresa" required /><br><br>
-
-          <label>Correo electrónico:</label><br>
-          <input type="email" name="correo" required /><br><br>
-
-          <label>Número de teléfono:</label><br>
-          <input type="tel" name="telefono" required /><br><br>
-
-          <label>Contraseña:</label><br>
-          <input type="password" name="password" required /><br><br>
-
-          <button type="submit">Entrar</button>
-        </form>
-      </body>
-    </html>
-  `)
 })
 
 app.get('/fallado', (req, res) => {
