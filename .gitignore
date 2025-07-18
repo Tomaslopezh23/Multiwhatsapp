@@ -2,3 +2,7 @@ node_modules/
 *_sessions
 *qr.png
 *.log
+Usuarios/
+.env
+.DS_Store
+dist/
