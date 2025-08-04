@@ -420,7 +420,7 @@ client.on('message', async (msg) => {
   const chat = await msg.getChat()
   setTimeout(() => {
     chat.sendStateTyping().catch(() => {})
-  }, 1500)
+  }, 10000)
 
   try {
     const response = await axios.post(webhook, payload, {
